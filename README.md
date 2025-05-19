@@ -39,10 +39,16 @@ Copy the content of each file from the provided artifacts.
    docker-compose up -d
    ```
 
-3. To change the Whisper model, edit the `WHISPER_MODEL` environment variable in `docker-compose.yml` or override it:
-   ```bash
-   WHISPER_MODEL=medium docker-compose up -d
-   ```
+3. To change the Whisper model, you can:
+   - Edit the `WHISPER_MODEL` environment variable in `docker-compose.yml`
+   - **Or create a `.env` file in the project directory with the following content:**
+     ```
+     WHISPER_MODEL=medium
+     ```
+   - **Or override it on the command line:**
+     ```bash
+     WHISPER_MODEL=medium docker-compose up -d
+     ```
 
 ### Option 2: Using Docker Directly
 
