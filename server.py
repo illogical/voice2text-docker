@@ -7,12 +7,16 @@ import os
 import time
 from pydub import AudioSegment
 import threading
+from flask_cors import CORS
 
 app = Flask(__name__)
 
+# Enable CORS for all routes
+cors = CORS(app, resources={r"/*": {"origins": "*"}})
+
 # Get model name from environment variable or use "base" as default
 # Options: tiny, base, small, medium, large
-MODEL_NAME = os.environ.get("WHISPER_MODEL", "large")
+MODEL_NAME = os.environ.get("WHISPER_MODEL", "small.en")
 
 # Load the Whisper model
 print(f"Loading Whisper model: {MODEL_NAME}")

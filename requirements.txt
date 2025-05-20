@@ -4,3 +4,4 @@ openai-whisper==20231117
 flask==2.3.3
 pydub==0.25.1
 numpy==1.24.4
+flask-cors
