@@ -90,4 +90,4 @@ def index():
 if __name__ == '__main__':
     # Run the application on all network interfaces (0.0.0.0)
     # This makes it accessible from other devices on the network
-    app.run(host='0.0.0.0', port=5000, debug=False)
+    app.run(host='0.0.0.0', port=80, debug=False)

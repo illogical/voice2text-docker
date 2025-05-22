@@ -1,4 +1,4 @@
-# Docker Deployment Instructions for Whisper Voice-to-Text Server
+# Whisper Voice-to-Text Server Deployment via Docker
 
 This guide explains how to deploy your Whisper voice-to-text server using Docker, making it accessible from any device on your local network.
 

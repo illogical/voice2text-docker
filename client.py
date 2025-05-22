@@ -9,7 +9,7 @@ import tempfile
 import audioop
 
 # Voice-to-Text URL
-VOICE_TO_TEXT_URL = "http://192.168.7.36:5000/transcribe"
+VOICE_TO_TEXT_URL = "https://whisper/transcribe"
 
 # Audio recording parameters
 FORMAT = pyaudio.paInt16
