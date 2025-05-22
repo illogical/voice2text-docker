@@ -1,16 +1,47 @@
 
-version: '3'
-
 services:
+ # Tailscale service to connect to your Tailscale network
+  tailscale:
+    image: ghcr.io/tailscale/tailscale:latest # Official Tailscale image
+    container_name: ts-whisper
+    hostname: whisper # Sets the container's hostname and advertised hostname on Tailscale
+    environment:
+      # Tailscale authentication key
+      # REQUIRED: Set this in a .env file or directly in your environment.
+      - TS_AUTHKEY=${TS_AUTHKEY:-}
+      # Tells Tailscale where to store its state data within the container.
+      - TS_STATE_DIR=/var/lib/tailscale
+      # HTTPS configuration for Tailscale
+      - TS_SERVE_CONFIG=/config/https.json
+      - TS_USERSPACE=false # Use the Tailscale userspace networking stack (default is true)
+      # Optional: Add tags for Tailscale ACLs or auto-approval.
+      # Example: --advertise-tags=tag:docker-server,tag:web
+      # - TS_EXTRA_ARGS=--advertise-tags=tag:my-app
+    volumes:
+      # Mounts a local directory for Tailscale configuration files
+      - ${PWD}/config:/config
+      # Mounts a named Docker volume to persist Tailscale state across container restarts.
+      - tailscale_state:/var/lib/tailscale
+      # Required for Tailscale to create the tunnel interface.
+      - /dev/net/tun:/dev/net/tun
+    cap_add:
+      # Required for Tailscale to manage network interfaces and routing.
+      - NET_ADMIN
+      - SYS_MODULE # May be needed for WireGuard kernel module interactions.
+    restart: unless-stopped
+    # The default command for the image is `tailscaled`, so explicitly setting it is optional.
+    # command: tailscaled
   whisper-server:
     build: .
-    ports:
-      - "5000:5000"
+    container_name: voice2text
     environment:
       - WHISPER_MODEL=${WHISPER_MODEL}  # Change to tiny, base, small, medium, or large
     restart: unless-stopped
     volumes:
       - whisper-models:/root/.cache/whisper  # Persist downloaded models
+    depends_on:
+      - tailscale
+    network_mode: "service:tailscale"
     deploy:
       resources:
         reservations:
@@ -21,3 +52,4 @@ services:
 
 volumes:
   whisper-models:
+  tailscale_state: {}

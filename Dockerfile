@@ -24,7 +24,7 @@ COPY server.py .
 RUN mkdir -p /root/.cache/whisper
 
 # Expose the port the server runs on
-EXPOSE 5000
+EXPOSE 80
 
 # Set environment variable to specify which model to use
 # Options: tiny, base, small, medium, large
